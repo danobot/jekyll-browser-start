@@ -1,0 +1,76 @@
+name: Homepage
+
+tabs:
+  - title: MyTab
+    id: mytab
+    cards:
+      - title: Category 1
+        links:
+          - title: Category Build
+            tags: [dev,css,build]
+            href: https://blog.danielha.tk
+          - title: Category TEST
+            tags: [test,css]
+            href: https://blog.danielha.tk
+          - title: Category UAT
+            tags: [uat,css]
+            href: https://blog.danielha.tk
+          - title: Category PROD
+            tags: [prod,css]
+            href: https://blog.danielha.tk
+      - title: Category 2
+        links:
+          - title: Console TEST
+            tags: [test,console]
+            href: https://blog.danielha.tk
+          - title: Console UAT
+            tags: [uat,console]
+            href: https://blog.danielha.tk
+          - title: Console PROD
+            tags: [prod,console]
+            href: https://blog.danielha.tk
+          - title: Deploy to UAT
+            tags: [uat,deploy,jenkins]
+            href: https://blog.danielha.tk
+          - title: Deploy to PROD
+            tags: [prod,deploy,jenkins]
+            href: https://blog.danielha.tk
+          - title: Deploy to TEST
+            tags: [test,deploy,jenkins]
+            href: https://blog.danielha.tk
+      - title: Category
+        links:
+          - title: Category TEST
+            tags: [test]
+            href: https://blog.danielha.tk
+          - title: Category UAT
+            tags: [uat]
+            href: https://blog.danielha.tk
+          - title: Category PROD
+            tags: [prod]
+            href: https://blog.danielha.tk
+          
+     
+          
+      - title: Devops
+        links:
+          - title: Wiki
+            tags: [wiki]
+            href: https://blog.danielha.tk
+          - title: Jenkins
+            tags: [jenkins]
+            href: https://blog.danielha.tk
+          - title: Nexus
+            tags: [nexus]
+            href: https://blog.danielha.tk
+          - title: JIRA
+            tags: [jira]
+            href: https://blog.danielha.tk
+  - title: Devops
+    id: mytab2
+    cards:
+      - title: Category 3
+        links:
+          - title: Category UAT
+            tags: [uat,css]
+            href: https://blog.danielha.tk          

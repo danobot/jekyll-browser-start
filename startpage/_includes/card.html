@@ -1,0 +1,14 @@
+ 
+    <div class="card">
+        <div class="card-header">
+                {{include.card.title}}
+        </div>
+        <div class="list-group-flush">
+            {% for link in include.card.links %}
+                {% include link.html link=link %}
+            {% endfor %}
+                    
+        </div>
+
+    </div>
+ 

@@ -1,0 +1,28 @@
+{
+  "name": "jekyll-browser-startpage",
+  "version": "0.1.0",
+  "description": "A browser startpage.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "release": "standard-version -a"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danobot/jekyll-browser-start"
+  },
+  "author": "Daniel Mason",
+  "license": "MIT",
+  "devDependencies": {
+    "semantic-release": "^15.13.3",
+    "standard-version": "^4.4.0",
+    "replace-in-file": "^3.4.3"
+  },
+  "standard-version": {
+    "scripts": {
+      "precommit": "node version_bump.js && git add startpage/_includes"
+    }
+  }
+}

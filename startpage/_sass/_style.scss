@@ -1,0 +1,44 @@
+.container-fluid {
+    height: 100%;
+
+}
+
+
+
+
+
+/* other stuff */
+
+.wrapper {
+  padding: 10%;
+  width: 80%;
+}
+
+.wrapper img {
+  float: left;
+  width: 45%;
+  margin-bottom: 10%
+}
+
+.wrapper img:nth-child(even) {
+  margin-left: 10%;
+}
+
+#searchOverlay {
+  width: 700px;
+
+}
+
+
+.filterDiv {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+
+.card-columns {
+    column-count: 7;
+}

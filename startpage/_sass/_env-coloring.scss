@@ -1,0 +1,28 @@
+
+
+.list-group-flush {
+
+    div {
+        &.dev {
+            border-left-width: 8px;
+            border-left-style: solid;
+            border-left-color: lightgreen;
+        }
+        &.test {
+            border-left-width: 8px;
+            border-left-style: solid;
+            border-left-color: lightblue;
+        }
+        &.uat {
+            border-left-width: 8px;
+            border-left-style: solid;
+            border-left-color: yellow;
+        }
+        &.prod {
+            border-left-width: 8px;
+            border-left-style: solid;
+            border-left-color: red;
+        }
+    }
+
+} 
