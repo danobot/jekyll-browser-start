@@ -3,9 +3,10 @@ var searchOverlay = $("#searchOverlay");
 var searchInput = $("#searchOverlay input");
 var searchButton = $("#searchbutton");
 
-// hide the searchOverlay
+// hide the searchOverlay and reset input on load
 
 searchOverlay.hide();
+searchInput.val('');
 
 // Status indicating that search is not active. 
 	
