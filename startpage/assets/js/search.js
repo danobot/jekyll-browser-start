@@ -78,6 +78,26 @@ searchInput.keyup(function(e) {
     }
 });
 	
+searchInput.focusout(function(e) {
+  // myMove();
+  searchOverlay.hide();
+  searchInput.val('');
+  searchStatus = false;
 
+
+  
+});
     
-    
+// function myMove() {
+//   var elem = searchOverlay; 
+//   var pos = 0;
+//   var id = setInterval(frame, 1);
+//   function frame() {
+//     if (pos == -200) {
+//       clearInterval(id);
+//     } else {
+//       pos-- 
+//       elem.style.bottom = pos + 'px'; 
+//     }
+//   }
+// }
