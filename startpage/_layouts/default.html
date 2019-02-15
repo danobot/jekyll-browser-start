@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Bare - Start Bootstrap Template</title>
+  <title>{{site.data.common.name}}</title>
 
   <!-- Bootstrap core CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,20 +20,16 @@
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark static-top">
-      <a class="navbar-brand" href="#">{{site.data.links.name}}</a>
+      <a class="navbar-brand" href="#">{{site.data.common.name}}</a>
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav">
-                {% for t in site.data.links.tabs %}
-                    
+            {% for t in site.data.links.tabs %}
+              
                 {% include tab-nav.html tab=t %}
-            
+
             {% endfor %}
         </ul>    
-        <ul>
-
-        </ul>
-        
       </div>
       <span class="navbar-text">
           {% include version.html %}
@@ -42,17 +38,10 @@
   </nav>
 
   <!-- Page Content -->
-
-  
- 
     <div class="container-fluid mt-2">
-
-              
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 {% for t in site.data.links.tabs %}
-                    
                     {% include tab-nav.html tab=t %}
-                
                 {% endfor %}
 
             </ul>
@@ -60,17 +49,12 @@
                 {% for t in site.data.links.tabs %}
                     {% include tab.html tab=t isActive=forloop %}
                 {% endfor %}
-                
             </div>
 
       <div  id="searchOverlay" class="fixed-bottom shadow-lg p-3 mb-5 ml-auto mr-auto bg-white rounded" style="display:none;">
         <input  class="form-control" autofocus type="text" placeholder="Search anything...">
-
       </div>      
-               
     </div>
-        
-
 
   <!-- Bootstrap core JavaScript -->
   <script src="assets/vendor/jquery/jquery.min.js"></script>
