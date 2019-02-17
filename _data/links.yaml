@@ -1,5 +1,3 @@
-name: Homepage
-
 tabs:
   - title: MyTab
     id: mytab
