@@ -28,8 +28,19 @@
   width: 700px;
 
 }
+.tab-panel {
+  display: none;
+}
+li {
 
-
+  .active {
+    font-weight: bold !important;
+  
+  }
+  .show {
+    color: rgba(255,255,255,.5) !important;
+  }
+} 
 .filterDiv {
   display: none;
 }
