@@ -58,8 +58,8 @@ module Jekyll
 
 			site.posts.docs.each do |post|
 
-				timestamp =Time.now.to_i
-				# timestamp = post.date.to_i * 1000
+				# timestamp =Time.now.to_i
+				timestamp = post.date.to_i * 1000
 				author_id = 1
                 
          
@@ -74,14 +74,14 @@ module Jekyll
 					# "mobiledoc" => mobiledoc,
 					"mobiledoc" => mobiledoc.to_json.to_s,
 					# "html" => converter.convert(post.content),
-					"feature_image" => processUrl(post.data['image']),
+					"feature_image" => processImageUrl(post.data['image']),
 					"featured" => 0,
 					"page" => 0,
 					"status" => "published",
 					"published_at" => timestamp,
 					"published_by" => 1,
 					"meta_title" => post.data['title'],
-					"meta_description" => post.data['excerpt'],
+					"meta_description" => post.data['excerpt'].to_s.slice!(0, 499),
 					"author_id" => author_id,
 					"created_at" => timestamp,
 					"created_by" => 1,
@@ -113,6 +113,9 @@ module Jekyll
 
 		end
 		def generate_mobileloc(post) 
+			Jekyll.logger.info(" ##############################################################################################################################")
+			Jekyll.logger.info("  PROCESSING "  + post.data['title'])
+			Jekyll.logger.info(" ##############################################################################################################################")
 			cards = []
 			content = post.content
 			slug = post.data['slug']
@@ -138,14 +141,14 @@ module Jekyll
 			# find all image tag references
 			re = /(\!\[(.*?)\]\(\{\{(.*?)\}\}\))/
 
-			str = content
+			str = str
 			Jekyll.logger.info "Generating Mobileloc"
 			# Print the match result
 			last_one = str
 			str.scan(re) do |match|
 				Jekyll.logger.info "============================ Processing image " + match[0].gsub('\n','') + " ==============================="
 				if last_one
-				Jekyll.logger.info "Previous last_one\t\t" + last_one.gsub('\n','')
+				# Jekyll.logger.info "Previous last_one\t\t" + last_one.gsub('\n','')
 				Jekyll.logger.info "------------------------------------------------------------------------------------------------------------"
 				
 				# split by image tag ![Caption]({{ "/assets/img/image.jpg" | relative_url }})
@@ -191,16 +194,24 @@ module Jekyll
 
 		def add_image_card(caption, url)
 			Jekyll.logger.info url
-			theUrl = processUrl(url)
+			theUrl = processImageUrl(url)
 			Jekyll.logger.info theUrl
 			return ["image", {"src" => theUrl, "caption" => caption}]
 		end
-		def processUrl(url)
+		
+
+		def add_adsense_card()
+			theUrl = processImageUrl(url)
+			Jekyll.logger.info theUrl
+			return ["image", {"src" => theUrl, "caption" => caption}]
+		end
+
+		def processImageUrl(url)
 			Jekyll.logger.info "URL to be processed " + url.to_s
 			if url.to_s.include?  "|"
 				url = url.to_s.split("|")[0]
 			end
-			return url.to_s.gsub('"','').gsub('/assets/img', '/content/images').strip
+			return url.to_s.gsub('"','').gsub('/assets/img', '/content/images').gsub('assets/img', '/content/images').strip
 
 		end
 		def gen_new_link(filename)
