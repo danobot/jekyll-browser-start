@@ -59,19 +59,19 @@ module Jekyll
 			site.posts.docs.each do |post|
 
 				timestamp = post.date.to_i * 1000
+				author_id = 1
                 
-                author_id = 1
          
 								# "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"Fds\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}"
-				mobiledoc = generate_mobileloc(post.content) ;
+				mobiledoc = generate_mobileloc(post) ;
 				ex_post = {
 					"id" => id,
 					"title" => post.data['title'],
 					"slug" => post.data['slug'],
 					# "markdown" => post.content,
 					"mobiledoc" => mobiledoc.to_json.to_s,
-					"html" => converter.convert(post.content),
-                    "feature_image" => nil,
+					# "html" => converter.convert(post.content),
+					"feature_image" => nil,
 					"featured" => 0,
 					"page" => 0,
 					"status" => "published",
@@ -81,9 +81,9 @@ module Jekyll
 					"meta_description" => nil,
 					"author_id" => author_id,
 					"created_at" => timestamp,
-        			"created_by" => 1,
-        			"updated_at" => timestamp,
-        			"updated_by" => 1
+					"created_by" => 1,
+					"updated_at" => timestamp,
+					"updated_by" => 1
 				}
 
 				ex_posts.push(ex_post)
@@ -109,27 +109,42 @@ module Jekyll
 			site.static_files << GhostPage.new(site, site.source, site.config['destination'], 'ghost_export.json', export_object)
 
 		end
-		def generate_mobileloc(content) 
+		def generate_mobileloc(post) 
+			content = post.content
+			slug = post.data['slug']
+			Jekyll.logger.info post.data['slug']
 
 			# find all occurances of link {% post_url rails/2016-12-15-carrierwave-upload-to-gcp %}
-			# re = "/{% post_url (.*) %}/m"
-			re = /\{\%\s?post_url\s?(.*)%\}/
+			# re = "/{% post_url (.*) %}/mU"
+			re = /(\{\%\s?post_url\s?(.*)\s?%\})/
 
 			str = content
 			Jekyll.logger.info "Generating Mobileloc"
 			# Print the match result
 			str.scan(re) do |match|
-				Jekyll.logger.info match[0].to_s
+				Jekyll.logger.info match
+				
+				new_link = gen_new_link(match[1])
+				Jekyll.logger.info "new link\t\t" + new_link + "\t\t" + match[0] 
+				str = str.gsub(match[0], new_link)
+
 			end
 
 			return {
 				"version" => '0.3.1',
 				"atoms" => [],
 				# "cards" => [['html', { "html" => converter.convert(post.content)}]],
-				"cards" => [['markdown', { "markdown" => content}]],
+				"cards" => [['markdown', { "markdown" => str}]],
 				"markups" => [],
 				"sections" => [[10, 0]]
 		}
+		end
+		def gen_new_link(filename)
+
+			# remove date
+			filename.slice!(0, 11)
+			return '/' + filename
+
 		end
 		def process_tags(postId, tags, categories)
 			unique_tags = tags | categories
