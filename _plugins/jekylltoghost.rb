@@ -144,19 +144,19 @@ module Jekyll
 			last_one = str
 			str.scan(re) do |match|
 				Jekyll.logger.info "============================ Processing image " + match[0].gsub('\n','') + " ==============================="
+				if last_one
 				Jekyll.logger.info "Previous last_one\t\t" + last_one.gsub('\n','')
 				Jekyll.logger.info "------------------------------------------------------------------------------------------------------------"
 				
 				# split by image tag ![Caption]({{ "/assets/img/image.jpg" | relative_url }})
 
-				if last_one
 					split =	last_one.split( match[0]) # [before, after]
 					# Jekyll.logger.info split
-					Jekyll.logger.info "Split Before\t\t" + split[0].gsub('\n','')
+					# Jekyll.logger.info "Split Before\t\t" + split[0].gsub('\n','')
 					
 					cards << add_markdown_card(split[0])
 
-					Jekyll.logger.info "Split After\t\t" + split[1].to_s.gsub('\n','')
+					# Jekyll.logger.info "Split After\t\t" + split[1].to_s.gsub('\n','')
 					cards << add_image_card(match[1], match[2])
 					last_one = split[1]
 				else
@@ -167,14 +167,13 @@ module Jekyll
 				cards << add_markdown_card(last_one)
 			end
 
-			sections = generate_sections(cards)
 			return {
 				"version" => '0.3.1',
 				"atoms" => [],
 				# "cards" => [['html', { "html" => converter.convert(post.content)}]],
 				"cards" => cards,
 				"markups" => [],
-				"sections" => sections
+				"sections" => generate_sections(cards)
 		}
 		end
 		def generate_sections(cards)
@@ -197,7 +196,11 @@ module Jekyll
 			return ["image", {"src" => theUrl, "caption" => caption}]
 		end
 		def processUrl(url)
-			return url.split("|")[0].to_s.gsub('"','').gsub('/assets/img', '/content/images').strip
+			Jekyll.logger.info "URL to be processed " + url.to_s
+			if url.to_s.include?  "|"
+				url = url.to_s.split("|")[0]
+			end
+			return url.to_s.gsub('"','').gsub('/assets/img', '/content/images').strip
 
 		end
 		def gen_new_link(filename)
