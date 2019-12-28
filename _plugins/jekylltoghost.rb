@@ -28,7 +28,7 @@ module Jekyll
 
 		def write(dest)
 			File.open(File.join(@site.config['destination'], 'ghost_export.json'), 'w') do |f|
-				f.write(@contents.to_json.to_s)
+				f.write(JSON.pretty_generate(@contents))
 			end
 			true
 		end
@@ -58,7 +58,8 @@ module Jekyll
 
 			site.posts.docs.each do |post|
 
-				timestamp = post.date.to_i * 1000
+				timestamp =Time.now.to_i
+				# timestamp = post.date.to_i * 1000
 				author_id = 1
                 
          
@@ -70,16 +71,17 @@ module Jekyll
 					"title" => post.data['title'],
 					"slug" => post.data['slug'],
 					# "markdown" => post.content,
-					"mobiledoc" => mobiledoc,
+					# "mobiledoc" => mobiledoc,
+					"mobiledoc" => mobiledoc.to_json.to_s,
 					# "html" => converter.convert(post.content),
-					"feature_image" => nil,
+					"feature_image" => processUrl(post.data['image']),
 					"featured" => 0,
 					"page" => 0,
 					"status" => "published",
 					"published_at" => timestamp,
 					"published_by" => 1,
-					"meta_title" => nil,
-					"meta_description" => nil,
+					"meta_title" => post.data['title'],
+					"meta_description" => post.data['excerpt'],
 					"author_id" => author_id,
 					"created_at" => timestamp,
 					"created_by" => 1,
@@ -141,40 +143,63 @@ module Jekyll
 			# Print the match result
 			last_one = str
 			str.scan(re) do |match|
-				Jekyll.logger.info "Processing image " + match[0] + " ==============================="
+				Jekyll.logger.info "============================ Processing image " + match[0].gsub('\n','') + " ==============================="
+				Jekyll.logger.info "Previous last_one\t\t" + last_one.gsub('\n','')
+				Jekyll.logger.info "------------------------------------------------------------------------------------------------------------"
 				
 				# split by image tag ![Caption]({{ "/assets/img/image.jpg" | relative_url }})
 
+				if last_one
+					split =	last_one.split( match[0]) # [before, after]
+					# Jekyll.logger.info split
+					Jekyll.logger.info "Split Before\t\t" + split[0].gsub('\n','')
+					
+					cards << add_markdown_card(split[0])
 
-				split =	last_one.split( match[0]) # [before, after]
-				Jekyll.logger.info split
-				Jekyll.logger.info "Split Before\t\t" + split[0]
-				
-				cards << add_markdown_card(split[0])
-				Jekyll.logger.info "Split After\t\t" + split[1].to_s
-				cards << add_image_card(match[1], match[2])
-				last_one = split[1]
-
+					Jekyll.logger.info "Split After\t\t" + split[1].to_s.gsub('\n','')
+					cards << add_image_card(match[1], match[2])
+					last_one = split[1]
+				else
+					Jekyll.logger.info "The image was the last bit of text."
+				end
 			end
-			cards << add_markdown_card(last_one)
+			if last_one
+				cards << add_markdown_card(last_one)
+			end
+
+			sections = generate_sections(cards)
 			return {
 				"version" => '0.3.1',
 				"atoms" => [],
 				# "cards" => [['html', { "html" => converter.convert(post.content)}]],
 				"cards" => cards,
 				"markups" => [],
-				"sections" => [[10, 0]]
+				"sections" => sections
 		}
 		end
-
+		def generate_sections(cards)
+			sec = []
+			cards.each.with_index { |val,index| 
+				sec << [10, index]
+			
+			}
+			sec << [1, "p", []]
+			return sec
+		end
 		def add_markdown_card(md)
 			return ['markdown', { "markdown" => md}]
 		end
 
 		def add_image_card(caption, url)
-			return ["image", {"src" => url, "caption" => caption}]
+			Jekyll.logger.info url
+			theUrl = processUrl(url)
+			Jekyll.logger.info theUrl
+			return ["image", {"src" => theUrl, "caption" => caption}]
 		end
+		def processUrl(url)
+			return url.split("|")[0].to_s.gsub('"','').gsub('/assets/img', '/content/images').strip
 
+		end
 		def gen_new_link(filename)
 
 			# remove date
