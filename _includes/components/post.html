@@ -1,0 +1,74 @@
+{% assign post          = include.post          %}
+{% assign no_link_title = include.no_link_title %}
+{% assign no_excerpt    = include.no_excerpt    %}
+{% assign hide_image    = include.hide_image    %}
+{% assign toc           = include.toc           %} <!-- Daniel Theme Customization -->
+<script>
+
+var currentUrl = location.href;
+  window.addEventListener('hashchange', function() {
+      _paq.push(['setReferrerUrl', currentUrl]);
+      currentUrl = '/' + window.location.hash.substr(1);
+      _paq.push(['setCustomUrl', currentUrl]);
+      _paq.push(['setDocumentTitle', '{{ post.title }}']);
+
+      // remove all previously assigned custom variables, requires Matomo (formerly Piwik) 3.0.2
+      _paq.push(['deleteCustomVariables', 'page']); 
+      _paq.push(['setGenerationTimeMs', 0]);
+      _paq.push(['trackPageView']);
+
+      // make Matomo aware of newly added content
+      var content = document.getElementById('content');
+      _paq.push(['MediaAnalytics::scanForMedia', content]);
+      _paq.push(['FormAnalytics::scanForForms', content]);
+      _paq.push(['trackContentImpressionsWithinNode', content]);
+      _paq.push(['enableLinkTracking']);
+  });
+  </script>
+<article id="post{{ post.id | replace:'/','-' }}" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title">
+      {% unless no_link_title %}<a href="{{ post.url | relative_url }}" class="flip-title">{% endunless %}
+        {{ post.title }}
+      {% unless no_link_title %}</a>{% endunless %}
+    </h1>
+
+    <p class="post-date heading">
+      {% assign post_format = site.data.strings.date_formats.post | default:"%d %b %Y" %}
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date:post_format }}</time>
+      {% assign category_start     = site.data.strings.category_start     | default:"in " %}
+      {% assign tag_start          = site.data.strings.tag_start          | default:"on " %}
+      {% assign category_separator = site.data.strings.category_separator | default:" / " %}
+      {% assign tag_separator      = site.data.strings.tag_separator      | default:", "  %}
+      {% include components/tag-list.html tags=post.categories meta=site.featured_categories start_with=category_start separator=category_separator %}
+      {% include components/tag-list.html tags=post.tags meta=site.featured_tags start_with=tag_start separator=tag_separator %}
+    </p>
+
+    {% assign alt = false %}
+    {% unless hide_image %}{% if post.image %}
+      <div class="img lead sixteen-nine">
+        {% include components/hy-img.html img=post.image alt=post.title %}
+      </div>
+      {% assign alt = '' %}
+    {% endif %}{% endunless %}
+
+    {% include components/message.html text=post.description hide=page.hide_description alt=alt %}
+  </header>
+
+  {% if no_excerpt %}<!-- if on post show view -->
+    {% if toc %} <!-- Daniel Theme Customization -->
+      <div id="markdown-toc" class="message" style="display: hidden"></div>
+    {% endif %}
+    {{ post.content  }}
+  {% else %}
+    {{ post.excerpt | markdownify }} <!-- Daniel Theme Customization -->
+
+    {% capture post_title %}<a class="heading flip-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>{% endcapture %}
+    {% assign text = site.data.strings.continue_reading | default:"Continue reading <!--post_title-->" %}
+    <footer>
+      <p class="read-more">
+        {{ text | replace:"<!--post_title-->", post_title }}
+      </p>
+    </footer>
+  {% endif %}
+</article>

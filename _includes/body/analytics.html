@@ -1,0 +1,55 @@
+{% if site.google_analytics and jekyll.environment == "production" %} 
+  <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+    /*{% if site.hydejack.cookies_banner %}*/
+      if (navigator.CookiesOK) {
+        ga('create', '{{ site.google_analytics }}', 'auto');
+      } else if (document.cookie.indexOf("hy--cookies-ok=true") > -1) {
+        ga('create', '{{ site.google_analytics }}', {
+          'storage': 'none',
+          'clientId': localStorage ? localStorage.getItem('ga--client-id') : undefined
+        });
+      } else {
+        ga('create', '{{ site.google_analytics }}', {
+          'storage': 'none'
+        });
+        ga('set', 'forceSSL', true);
+        ga('set', 'anonymizeIp', true);
+      }
+    /*{% else %}*/
+      ga('create', '{{ site.google_analytics }}', 'auto');
+    /*{% endif %}*/
+
+    var pushStateEl = document.getElementsByTagName('hy-push-state')[0];
+    var timeoutId;
+    pushStateEl.addEventListener('hy-push-state-load', function() {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(function() {
+        ga('set', 'page', window.location.pathname);
+        ga('send', 'pageview');
+      }, 500);
+    });
+
+    window.loadJSDeferred('https://www.google-analytics.com/analytics.js');
+  </script>
+ <!-- Matomo -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//analytics.danielbkr.net/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+
+
+</script>
+<!-- End Matomo Code -->
+
+{% endif %}

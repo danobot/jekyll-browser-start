@@ -1,9 +1,9 @@
-<div class="tab-panel fade {{ 'active show' if include.isActive }}" id="{{include.tab.id}}" role="tabpanel" aria-labelledby="{{include.tab.id}}-tab">
-    <div class="card-columns">
+<div class=" columns tab-panel fade {{ 'active show' if include.isActive }}" id="{{include.tab.id}}" role="tabpanel" aria-labelledby="{{include.tab.id}}-tab">
+    <!-- <div class="row"> -->
         {% for card in include.tab.cards %}
         
         {% include card.html card=card %}
         
         {% endfor %}
-    </div>
+    <!-- </div> -->
 </div>
