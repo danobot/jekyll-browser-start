@@ -64,12 +64,13 @@ module Jekyll
          
 								# "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"Fds\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}"
 				mobiledoc = generate_mobileloc(post) ;
+				# Jekyll.logger.info post.to_json
 				ex_post = {
 					"id" => id,
 					"title" => post.data['title'],
 					"slug" => post.data['slug'],
 					# "markdown" => post.content,
-					"mobiledoc" => mobiledoc.to_json.to_s,
+					"mobiledoc" => mobiledoc,
 					# "html" => converter.convert(post.content),
 					"feature_image" => nil,
 					"featured" => 0,
@@ -110,6 +111,7 @@ module Jekyll
 
 		end
 		def generate_mobileloc(post) 
+			cards = []
 			content = post.content
 			slug = post.data['slug']
 			Jekyll.logger.info post.data['slug']
@@ -130,15 +132,49 @@ module Jekyll
 
 			end
 
+
+			# find all image tag references
+			re = /(\!\[(.*?)\]\(\{\{(.*?)\}\}\))/
+
+			str = content
+			Jekyll.logger.info "Generating Mobileloc"
+			# Print the match result
+			last_one = str
+			str.scan(re) do |match|
+				Jekyll.logger.info "Processing image " + match[0] + " ==============================="
+				
+				# split by image tag ![Caption]({{ "/assets/img/image.jpg" | relative_url }})
+
+
+				split =	last_one.split( match[0]) # [before, after]
+				Jekyll.logger.info split
+				Jekyll.logger.info "Split Before\t\t" + split[0]
+				
+				cards << add_markdown_card(split[0])
+				Jekyll.logger.info "Split After\t\t" + split[1].to_s
+				cards << add_image_card(match[1], match[2])
+				last_one = split[1]
+
+			end
+			cards << add_markdown_card(last_one)
 			return {
 				"version" => '0.3.1',
 				"atoms" => [],
 				# "cards" => [['html', { "html" => converter.convert(post.content)}]],
-				"cards" => [['markdown', { "markdown" => str}]],
+				"cards" => cards,
 				"markups" => [],
 				"sections" => [[10, 0]]
 		}
 		end
+
+		def add_markdown_card(md)
+			return ['markdown', { "markdown" => md}]
+		end
+
+		def add_image_card(caption, url)
+			return ["image", {"src" => url, "caption" => caption}]
+		end
+
 		def gen_new_link(filename)
 
 			# remove date
@@ -146,6 +182,7 @@ module Jekyll
 			return '/' + filename
 
 		end
+
 		def process_tags(postId, tags, categories)
 			unique_tags = tags | categories
 			unique_tags = unique_tags.map do |t|
