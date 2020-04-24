@@ -61,7 +61,9 @@ module Jekyll
 				# timestamp =Time.now.to_i
 				timestamp = post.date.to_i * 1000
 				author_id = 1
-                
+								if post.data['featured'] == nil
+									post.data['featured']  = 0
+								end
          
 								# "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"Fds\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}"
 				mobiledoc = generate_mobileloc(post) ;
@@ -75,7 +77,7 @@ module Jekyll
 					"mobiledoc" => mobiledoc.to_json.to_s,
 					# "html" => converter.convert(post.content),
 					"feature_image" => processImageUrl(post.data['image']),
-					"featured" => 0,
+					"featured" => post.data['featured'] ,
 					"page" => 0,
 					"status" => "published",
 					"published_at" => timestamp,
@@ -157,7 +159,7 @@ module Jekyll
 					# Jekyll.logger.info split
 					# Jekyll.logger.info "Split Before\t\t" + split[0].gsub('\n','')
 					
-					cards << add_markdown_card(split[0])
+					 add_markdown_card(cards, split[0])
 
 					# Jekyll.logger.info "Split After\t\t" + split[1].to_s.gsub('\n','')
 					cards << add_image_card(match[1], match[2])
@@ -167,7 +169,7 @@ module Jekyll
 				end
 			end
 			if last_one
-				cards << add_markdown_card(last_one)
+			add_markdown_card(cards, last_one)
 			end
 
 			return {
@@ -188,8 +190,38 @@ module Jekyll
 			sec << [1, "p", []]
 			return sec
 		end
-		def add_markdown_card(md)
-			return ['markdown', { "markdown" => md}]
+		def add_markdown_card(cards, md)
+			re = /(\n\n?\[[^\/](.*?)\]\((.*?)\))/
+
+			# Print the match result
+			last_one = md
+			md.scan(re) do |match|
+				Jekyll.logger.info "============================ Processing Link " + match[0].gsub('\n','') + " ==============================="
+				if last_one
+				# Jekyll.logger.info "Previous last_one\t\t" + last_one.gsub('\n','')
+				Jekyll.logger.info "------------------------------------------------------------------------------------------------------------"
+				
+				# split by image tag ![Caption]({{ "/assets/img/image.jpg" | relative_url }})
+				
+				Jekyll.logger.info "Split by " + match[0].to_s.gsub('\n','')
+					split =	last_one.split( match[0].to_s.gsub('\n','')) # [before, after]
+					# Jekyll.logger.info "Split by " + split.to_s
+					# Jekyll.logger.info "Split Before\t\t" + split[0].gsub('\n','')
+					
+					 add_markdown_card(cards, split[0])
+
+					# Jekyll.logger.info "Split After\t\t" + split[1].to_s.gsub('\n','')
+					cards << add_bookmark_card(match[2], match[1])
+					last_one = split[1]
+				else
+					Jekyll.logger.info "The link was the last bit of text."
+				end
+			end
+
+			cards << ['markdown', { "markdown" => last_one}]
+		end
+		def add_bookmark_card(url, caption)
+			return ['bookmark', { "url" => url, caption =>  caption}]
 		end
 
 		def add_image_card(caption, url)
