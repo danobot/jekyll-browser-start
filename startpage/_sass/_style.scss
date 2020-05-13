@@ -35,6 +35,7 @@ li {
 
   .active {
     font-weight: bold !important;
+    color: white !important;
   
   }
   .show {
@@ -49,7 +50,9 @@ li {
   display: block;
 }
 
-
+.col-sm-11, .col-sm-1 {
+  padding: 0;
+}
 .card-columns {
-    column-count: 7;
+    column-count: 4;
 }

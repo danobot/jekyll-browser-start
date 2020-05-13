@@ -2,73 +2,76 @@ tabs:
   - title: MyTab
     id: mytab
     cards:
-      - title: Category 1
+      - title: Applications
         links:
-          - title: Category Build
-            tags: [dev,css,build]
-            href: https://blog.danielha.tk
-          - title: Category TEST
-            tags: [test,css]
-            href: https://blog.danielha.tk
-          - title: Category UAT
-            tags: [uat,css]
-            href: https://blog.danielha.tk
-          - title: Category PROD
-            tags: [prod,css]
-            href: https://blog.danielha.tk
-      - title: Category 2
+          - title: Grafana
+            tags: [grafana]
+            href: http://ubuntu:3000/
+          - title: Poratainer
+            tags: [portainer]
+            href: http://ubuntu:9000/#/containers
+            
+          - title: Nextcloud
+            tags: [Nextcloud, files]
+            href: http://ubuntu:8010/login
+          - title: Ghost BLogging
+            tags: [blog]
+            href: http://ubuntu:82
+          - title: Home Assistant
+            tags: [hass]
+            href: https://hass.danielbkr.net
+            icon: https://hass.danielbkr.net/static/icons/favicon-192x192.png
+      - title: Development
         links:
-          - title: Console TEST
-            tags: [test,console]
-            href: https://blog.danielha.tk
-          - title: Console UAT
-            tags: [uat,console]
-            href: https://blog.danielha.tk
-          - title: Console PROD
-            tags: [prod,console]
-            href: https://blog.danielha.tk
-          - title: Deploy to UAT
-            tags: [uat,deploy,jenkins]
-            href: https://blog.danielha.tk
-          - title: Deploy to PROD
-            tags: [prod,deploy,jenkins]
-            href: https://blog.danielha.tk
-          - title: Deploy to TEST
-            tags: [test,deploy,jenkins]
-            href: https://blog.danielha.tk
-      - title: Category
+          - title: Gitlab
+            tags: [gitlab]
+            href: https://gitlab.danielbkr.net
+        
+      - title: Admin
         links:
-          - title: Category TEST
-            tags: [test]
-            href: https://blog.danielha.tk
-          - title: Category UAT
-            tags: [uat]
-            href: https://blog.danielha.tk
-          - title: Category PROD
-            tags: [prod]
-            href: https://blog.danielha.tk
-          
-     
-          
-      - title: Devops
+          - title: Zone Minder
+            tags: [zone]
+            href: http://ubuntu:7878/zm/
+          - title: Pi Hole
+            tags: [pihole, dns]
+            href: http://ubuntu:5353/admin/index.php
+          - title: Traefik
+            tags: [traefik, proxy]
+            href: http://ubuntu:8080
+          - title: LDAP
+            tags: [ldap]
+            href: http://ubuntu:6081
+          - title: Analytics
+            tags: [Analytics]
+            href: https://analytics.danielbkr.net
+        
+      - title: Admin
         links:
-          - title: Wiki
-            tags: [wiki]
-            href: https://blog.danielha.tk
-          - title: Jenkins
-            tags: [jenkins]
-            href: https://blog.danielha.tk
-          - title: Nexus
-            tags: [nexus]
-            href: https://blog.danielha.tk
-          - title: JIRA
-            tags: [jira]
-            href: https://blog.danielha.tk
-  - title: Devops
+          - title: Zone Minder
+            tags: [zone]
+            href: http://ubuntu:7878/zm/
+          - title: Pi Hole
+            tags: [pihole, dns]
+            href: http://ubuntu:5353/admin/index.php
+          - title: Traefik
+            tags: [traefik, proxy]
+            href: http://ubuntu:8080
+  - title: Second Tab
     id: mytab2
     cards:
-      - title: Category 3
+      - title: Applications
         links:
-          - title: Category UAT
-            tags: [uat,css]
-            href: https://blog.danielha.tk          
+          - title: Grafana
+            tags: [grafana]
+            href: http://ubuntu:3000/
+          - title: Poratainer
+            tags: [portainer]
+            href: http://ubuntu:9000/#/containers
+            
+          - title: Nextcloud
+            tags: [Nextcloud, files]
+            href: http://ubuntu:8010/login
+          - title: Home Assistant
+            tags: [hass]
+            href: https://hass.danielbkr.net
+            icon: https://hass.danielbkr.net/static/icons/favicon-192x192.png

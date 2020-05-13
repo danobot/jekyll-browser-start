@@ -1,11 +1,17 @@
 
  <div class="filterDiv {{include.link.tags| join ' '}}"> 
-     <a href="{{include.link.href}}" class="list-group-item list-group-item-action bg-transparent">{{include.link.title}} 
-         {% if include.link.tags.size > 0 %}
-            {% for t in include.link.tags %}
-                <span class="badge badge-light">{{t}}</span>
-            {% endfor %}
-        {% endif %}
-     </a>
-
+        <a href="{{include.link.href}}" class="list-group-item list-group-item-action">
+     {% if include.link.icon %}
+         <div class="col-sm-1"><img src="{{include.link.icon}}" width="30px" height="30px"/></div>
+     {% endif %}
+     <div class="col-sm-11" >
+         
+         {{include.link.title}} 
+             {% if include.link.tags.size > 0 %}
+             {% for t in include.link.tags %}
+             <span class="badge badge-light">{{t}}</span>
+             {% endfor %}
+             {% endif %}
+            </div>
+        </a>
  </div>
