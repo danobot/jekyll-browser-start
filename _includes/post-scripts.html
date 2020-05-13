@@ -1,0 +1,29 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="/assets/js/magnific.js"></script>
+<script type="text/javascript" src="/assets/js/resize-videos.js"></script>
+
+
+<script type="text/javascript" src="/assets/js/toc.js"></script>
+
+<script type="text/javascript">
+
+
+  document.getElementsByTagName('hy-push-state')[0].addEventListener('hy-push-state-load', function() {
+      $('#markdown-toc').toc();
+
+      console.log("?");
+      if (window.DISQUS != null)
+      {
+        DISQUS.reset();
+      } else {
+
+        var d = document, s = d.createElement('script');
+        s.src = 'https://danielha.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+
+  });
+</script>

@@ -1,0 +1,21 @@
+<!-- Daniel Theme Customization -->
+
+{% assign meta = include.meta %}
+{% assign cat = include.category %}
+
+<li class="category">
+  <a href="/{{meta.slug}}/">
+    <h1>{{ meta.name }}</h1>
+
+    {% if meta.image %}
+      <div class="img lead sixteen-nine">
+        {% include components/hy-img.html img=meta.image alt=meta.name %}
+      </div>
+      {% assign alt = '' %}
+    {% endif %}
+
+  </a>
+  {% if meta.description %}
+    <p>{{meta.description}}</p>
+  {% endif %}
+</li>

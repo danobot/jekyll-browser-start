@@ -1,0 +1,36 @@
+{% assign post = include.post %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ post.url | absolute_url }}"
+  },
+  "headline": "{{ post.title| markdownify | strip_html }}",
+
+  "image": [
+    {% if post.image %}
+      "{{ post.image | absolute_url }}"
+    {% else %}
+      "{{site.data.strings.logo}}"
+    {% endif %}
+   ],
+
+  "datePublished": "{{post.date}}",
+  "dateModified": "{{post.date}}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.data.authors.author1.name }}"
+  },
+   "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.title }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{site.data.strings.logo}}"
+    }
+  },
+  "description": "{{ post.excerpt | markdownify | strip_html }}"
+}
+</script>
